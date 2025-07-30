@@ -10,7 +10,18 @@ const perguntas = [
     opcoes: ["Respiração", "Transporte de nutrientes e oxigênio", "Movimento corporal", "Sistema nervoso"],
     resposta: 1
   },
-  // Adicione mais perguntas aqui!
+  {
+    pergunta: "Qual é o principal benefício do alongamento antes do exercício?",
+    opcoes: ["Aumentar a força mucular", "Melhorar a flxibilidade e previnir lesões", "Reuir a frequência cardíaca", "Aumentar a resistência"],
+    resposta: 2
+  },
+   {
+    pergunta: "Qual é o nome do hormônio liberado durante a prática de exercícios físicos que promove sensação de bem-estar?",
+    opcoes: ["Adrenalina", "Cortisol", "Inulina", "Endorfina"],
+    resposta: 4
+  },
+
+  
 ];
 
 let indice = 0;
