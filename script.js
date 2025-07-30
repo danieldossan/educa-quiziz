@@ -21,7 +21,7 @@ const perguntas = [
     resposta: 4
   },
 
-  
+
 ];
 
 let indice = 0;
