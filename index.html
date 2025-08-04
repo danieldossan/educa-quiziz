@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz Educação Física</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>Quiz de Educação Física</h1>
-    <div id="quiz"></div>
-    <button id="next">Próxima</button>
-    <p id="score"></p>
+    <div id="inicio">
+      <h2>Bem-vindo ao Quiz de Educação Física!</h2>
+      <button onclick="iniciarQuiz()">Começar</button>
+    </div>
+
+    <div id="quiz" style="display: none;">
+      <h1>Quiz de Educação Física</h1>
+      <div id="perguntaContainer"></div>
+      <progress id="progresso" value="0" max="100"></progress>
+      <p id="score"></p>
+    </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
