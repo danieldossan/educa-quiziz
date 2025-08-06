@@ -133,15 +133,15 @@
     }
 
     proximaBtn.onclick = () => {
-     if (perguntaAtual < perguntas.length) {
-  mostrarPergunta();
-} else {
-  perguntaEl.textContent = "🚫 Não tem como recomeçar.";
-  opcoesEl.innerHTML = "";
-  feedbackEl.textContent = "Por que a vida não te dá segundas chances... nem pontos.";
-  proximaBtn.style.display = "none";
-}
-
+      perguntaAtual++;
+      if (perguntaAtual < perguntas.length) {
+        mostrarPergunta();
+      } else {
+        perguntaEl.textContent = "🚫 Não tem como recomeçar.";
+        opcoesEl.innerHTML = "";
+        feedbackEl.textContent = "Por que a vida não te dá segundas chances... nem pontos.";
+        proximaBtn.style.display = "none";
+      }
     };
 
     mostrarPergunta();
