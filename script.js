@@ -30,3 +30,12 @@ const perguntas = [
     resposta: 1
   }
 ];
+
+// Exibir todas as perguntas e opções
+perguntas.forEach((item, index) => {
+  console.log(`Pergunta ${index + 1}: ${item.pergunta}`);
+  item.opcoes.forEach((opcao, i) => {
+    console.log(`  ${i + 1}. ${opcao}`);
+  });
+  console.log(""); // linha em branco para separar
+});
