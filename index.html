@@ -1,26 +1,73 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz Educação Física</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Quiz Interativo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .pergunta {
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <div id="inicio">
-      <h2>Bem-vindo ao Quiz de Educação Física!</h2>
-      <button onclick="iniciarQuiz()">Começar</button>
-    </div>
+  <h1>Quiz</h1>
+  <div id="quiz"></div>
 
-    <div id="quiz" style="display: none;">
-      <h1>Quiz de Educação Física</h1>
-      <div id="perguntaContainer"></div>
-      <progress id="progresso" value="0" max="100"></progress>
-      <p id="score"></p>
-    </div>
-  </div>
+  <script>
+    const perguntas = [
+      {
+        pergunta: "Qual é o nome do movimento de flexionar o cotovelo?",
+        opcoes: ["Extensão", "Flexão", "Rotação", "Abdução"],
+        resposta: 1
+      },
+      {
+        pergunta: "Qual das opções é uma atividade aeróbica?",
+        opcoes: ["Musculação", "Corrida", "Yoga", "Pilates"],
+        resposta: 1
+      },
+      {
+        pergunta: "Qual músculo é trabalhado na prancha abdominal?",
+        opcoes: ["Bíceps", "Glúteo", "Tríceps", "Abdômen"],
+        resposta: 3
+      },
+      {
+        pergunta: "Qual é a frequência cardíaca ideal durante exercícios moderados?",
+        opcoes: ["50-60% da FC máxima", "70-80% da FC máxima", "30-40% da FC máxima", "90-100% da FC máxima"],
+        resposta: 1
+      },
+      {
+        pergunta: "O que é flexibilidade?",
+        opcoes: [
+          "Capacidade de produzir força",
+          "Capacidade de movimentar-se com amplitude",
+          "Velocidade de reação",
+          "Quantidade de massa muscular"
+        ],
+        resposta: 1
+      }
+    ];
 
-  <script src="script.js"></script>
+    const quizDiv = document.getElementById("quiz");
+
+    perguntas.forEach((item, index) => {
+      const perguntaDiv = document.createElement("div");
+      perguntaDiv.className = "pergunta";
+
+      const titulo = document.createElement("h3");
+      titulo.textContent = `Pergunta ${index + 1}: ${item.pergunta}`;
+      perguntaDiv.appendChild(titulo);
+
+      item.opcoes.forEach((opcao, i) => {
+        const opcaoP = document.createElement("p");
+        opcaoP.textContent = `${i + 1}. ${opcao}`;
+        perguntaDiv.appendChild(opcaoP);
+      });
+
+      quizDiv.appendChild(perguntaDiv);
+    });
+  </script>
 </body>
 </html>
