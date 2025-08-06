@@ -5,16 +5,57 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
+      padding: 30px;
+      background-color: #f0f0f0;
     }
-    .pergunta {
-      margin-bottom: 20px;
+    #quiz-container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .opcao {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      background-color: #e0e0e0;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .opcao:hover {
+      background-color: #d0d0d0;
+    }
+    .correta {
+      background-color: #a8e6cf !important;
+    }
+    .errada {
+      background-color: #ff8b94 !important;
+    }
+    #feedback {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    #proxima {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <h1>Quiz</h1>
-  <div id="quiz"></div>
+
+  <div id="quiz-container">
+    <h2 id="pergunta"></h2>
+    <div id="opcoes"></div>
+    <div id="feedback"></div>
+    <button id="proxima">Próxima Pergunta</button>
+  </div>
 
   <script>
     const perguntas = [
@@ -50,24 +91,61 @@
       }
     ];
 
-    const quizDiv = document.getElementById("quiz");
+    let perguntaAtual = 0;
 
-    perguntas.forEach((item, index) => {
-      const perguntaDiv = document.createElement("div");
-      perguntaDiv.className = "pergunta";
+    const perguntaEl = document.getElementById("pergunta");
+    const opcoesEl = document.getElementById("opcoes");
+    const feedbackEl = document.getElementById("feedback");
+    const proximaBtn = document.getElementById("proxima");
 
-      const titulo = document.createElement("h3");
-      titulo.textContent = `Pergunta ${index + 1}: ${item.pergunta}`;
-      perguntaDiv.appendChild(titulo);
+    function mostrarPergunta() {
+      const atual = perguntas[perguntaAtual];
+      perguntaEl.textContent = atual.pergunta;
+      opcoesEl.innerHTML = "";
+      feedbackEl.textContent = "";
+      proximaBtn.style.display = "none";
 
-      item.opcoes.forEach((opcao, i) => {
-        const opcaoP = document.createElement("p");
-        opcaoP.textContent = `${i + 1}. ${opcao}`;
-        perguntaDiv.appendChild(opcaoP);
+      atual.opcoes.forEach((opcao, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = opcao;
+        btn.className = "opcao";
+        btn.onclick = () => verificarResposta(i, btn);
+        opcoesEl.appendChild(btn);
       });
+    }
 
-      quizDiv.appendChild(perguntaDiv);
-    });
+    function verificarResposta(indice, botao) {
+      const correta = perguntas[perguntaAtual].resposta;
+      const botoes = document.querySelectorAll(".opcao");
+
+      botoes.forEach(btn => btn.disabled = true);
+
+      if (indice === correta) {
+        botao.classList.add("correta");
+        feedbackEl.textContent = "✅ Resposta correta!";
+      } else {
+        botao.classList.add("errada");
+        feedbackEl.textContent = "❌ Resposta incorreta!";
+        botoes[correta].classList.add("correta");
+      }
+
+      proximaBtn.style.display = "inline-block";
+    }
+
+    proximaBtn.onclick = () => {
+      perguntaAtual++;
+      if (perguntaAtual < perguntas.length) {
+        mostrarPergunta();
+      } else {
+        perguntaEl.textContent = "🎉 Fim do quiz!";
+        opcoesEl.innerHTML = "";
+        feedbackEl.textContent = "";
+        proximaBtn.style.display = "none";
+      }
+    };
+
+    mostrarPergunta();
   </script>
+
 </body>
 </html>
