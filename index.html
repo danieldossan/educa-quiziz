@@ -1,117 +1,173 @@
-<script>
-  const perguntas = [
-    {
-      pergunta: "Qual é o nome do movimento de flexionar o cotovelo?",
-      opcoes: ["Extensão", "Flexão", "Rotação", "Abdução"],
-      resposta: 1
-    },
-    {
-      pergunta: "Qual das opções é uma atividade aeróbica?",
-      opcoes: ["Musculação", "Corrida", "Yoga", "Pilates"],
-      resposta: 1
-    },
-    {
-      pergunta: "Qual músculo é trabalhado na prancha abdominal?",
-      opcoes: ["Bíceps", "Glúteo", "Tríceps", "Abdômen"],
-      resposta: 3
-    },
-    {
-      pergunta: "Qual é a frequência cardíaca ideal durante exercícios moderados?",
-      opcoes: ["50-60% da FC máxima", "70-80% da FC máxima", "30-40% da FC máxima", "90-100% da FC máxima"],
-      resposta: 1
-    },
-    {
-      pergunta: "O que é flexibilidade?",
-      opcoes: [
-        "Capacidade de produzir força",
-        "Capacidade de movimentar-se com amplitude",
-        "Velocidade de reação",
-        "Quantidade de massa muscular"
-      ],
-      resposta: 1
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Fitness</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f4f4f4;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-  ];
+    h2 {
+      font-size: 1.4em;
+    }
+    .opcao {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      background-color: #e0e0e0;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .opcao:hover {
+      background-color: #d5d5d5;
+    }
+    .correta {
+      background-color: #8BC34A !important;
+      color: white;
+    }
+    .errada {
+      background-color: #F44336 !important;
+      color: white;
+    }
+    #proxima, #reiniciar {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #2196F3;
+      color: white;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2 id="pergunta">Carregando pergunta...</h2>
+  <div id="opcoes"></div>
+  <p id="feedback"></p>
+  <button id="proxima">Próxima</button>
+  <button id="reiniciar">🔄 Reiniciar</button>
 
-  let perguntaAtual = 0;
-  let acertos = 0;
+  <script>
+    const perguntas = [
+      {
+        pergunta: "Qual é o nome do movimento de flexionar o cotovelo?",
+        opcoes: ["Extensão", "Flexão", "Rotação", "Abdução"],
+        resposta: 1
+      },
+      {
+        pergunta: "Qual das opções é uma atividade aeróbica?",
+        opcoes: ["Musculação", "Corrida", "Yoga", "Pilates"],
+        resposta: 1
+      },
+      {
+        pergunta: "Qual músculo é trabalhado na prancha abdominal?",
+        opcoes: ["Bíceps", "Glúteo", "Tríceps", "Abdômen"],
+        resposta: 3
+      },
+      {
+        pergunta: "Qual é a frequência cardíaca ideal durante exercícios moderados?",
+        opcoes: ["50-60% da FC máxima", "70-80% da FC máxima", "30-40% da FC máxima", "90-100% da FC máxima"],
+        resposta: 1
+      },
+      {
+        pergunta: "O que é flexibilidade?",
+        opcoes: [
+          "Capacidade de produzir força",
+          "Capacidade de movimentar-se com amplitude",
+          "Velocidade de reação",
+          "Quantidade de massa muscular"
+        ],
+        resposta: 1
+      }
+    ];
 
-  const perguntaEl = document.getElementById("pergunta");
-  const opcoesEl = document.getElementById("opcoes");
-  const feedbackEl = document.getElementById("feedback");
-  const proximaBtn = document.getElementById("proxima");
+    let perguntaAtual = 0;
+    let acertos = 0;
 
-  function mostrarPergunta() {
-    const atual = perguntas[perguntaAtual];
-    perguntaEl.textContent = atual.pergunta;
-    opcoesEl.innerHTML = "";
-    feedbackEl.textContent = "";
-    proximaBtn.style.display = "none";
+    const perguntaEl = document.getElementById("pergunta");
+    const opcoesEl = document.getElementById("opcoes");
+    const feedbackEl = document.getElementById("feedback");
+    const proximaBtn = document.getElementById("proxima");
+    const reiniciarBtn = document.getElementById("reiniciar");
 
-    atual.opcoes.forEach((opcao, i) => {
-      const btn = document.createElement("button");
-      btn.textContent = opcao;
-      btn.className = "opcao";
-      btn.onclick = () => verificarResposta(i, btn);
-      opcoesEl.appendChild(btn);
-    });
-  }
+    function mostrarPergunta() {
+      const atual = perguntas[perguntaAtual];
+      perguntaEl.textContent = atual.pergunta;
+      opcoesEl.innerHTML = "";
+      feedbackEl.textContent = "";
+      proximaBtn.style.display = "none";
+      reiniciarBtn.style.display = "none";
 
-  function verificarResposta(indice, botao) {
-    const correta = perguntas[perguntaAtual].resposta;
-    const botoes = document.querySelectorAll(".opcao");
-
-    botoes.forEach(btn => btn.disabled = true);
-
-    if (indice === correta) {
-      botao.classList.add("correta");
-      feedbackEl.textContent = "✅ Resposta correta!";
-      acertos++;
-    } else {
-      botao.classList.add("errada");
-      feedbackEl.textContent = "❌ Resposta incorreta!";
-      botoes[correta].classList.add("correta");
+      atual.opcoes.forEach((opcao, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = opcao;
+        btn.className = "opcao";
+        btn.onclick = () => verificarResposta(i, btn);
+        opcoesEl.appendChild(btn);
+      });
     }
 
-    proximaBtn.style.display = "inline-block";
-  }
+    function verificarResposta(indice, botao) {
+      const correta = perguntas[perguntaAtual].resposta;
+      const botoes = document.querySelectorAll(".opcao");
 
-  function mensagemFinal(pontos) {
-    if (pontos === 0) {
-      return "🏋️‍♂️ Vá agora montar seu plano de academia!";
-    } else if (pontos <= 2) {
-      return "🤔 Que tal se exercitar um pouco mais?";
-    } else if (pontos === 3 || pontos === 4) {
-      return "💪 Bom trabalho! Mas ainda dá pra melhorar.";
-    } else {
-      return "🎉 Parabéns! Você está em forma!";
+      botoes.forEach(btn => btn.disabled = true);
+
+      if (indice === correta) {
+        botao.classList.add("correta");
+        feedbackEl.textContent = "✅ Resposta correta!";
+        acertos++;
+      } else {
+        botao.classList.add("errada");
+        feedbackEl.textContent = "❌ Resposta incorreta!";
+        botoes[correta].classList.add("correta");
+      }
+
+      proximaBtn.style.display = "inline-block";
     }
-  }
 
-  function mostrarBotaoReiniciar() {
-    const reiniciarBtn = document.createElement("button");
-    reiniciarBtn.textContent = "🔄 Reiniciar";
+    function mensagemFinal(pontos) {
+      if (pontos === 0) {
+        return "🏋️‍♂️ Vá agora montar seu plano de academia!";
+      } else if (pontos <= 2) {
+        return "🤔 Que tal se exercitar um pouco mais?";
+      } else if (pontos === 3 || pontos === 4) {
+        return "💪 Bom trabalho! Mas ainda dá pra melhorar.";
+      } else {
+        return "🎉 Parabéns! Você está em forma!";
+      }
+    }
+
+    proximaBtn.onclick = () => {
+      perguntaAtual++;
+      if (perguntaAtual < perguntas.length) {
+        mostrarPergunta();
+      } else {
+        perguntaEl.textContent = "🏁 Fim do Quiz!";
+        opcoesEl.innerHTML = "";
+        feedbackEl.textContent = mensagemFinal(acertos);
+        proximaBtn.style.display = "none";
+        reiniciarBtn.style.display = "inline-block";
+      }
+    };
+
     reiniciarBtn.onclick = () => {
       perguntaAtual = 0;
       acertos = 0;
       mostrarPergunta();
-      reiniciarBtn.remove();
     };
-    feedbackEl.appendChild(document.createElement("br"));
-    feedbackEl.appendChild(reiniciarBtn);
-  }
 
-  proximaBtn.onclick = () => {
-    perguntaAtual++;
-    if (perguntaAtual < perguntas.length) {
-      mostrarPergunta();
-    } else {
-      perguntaEl.textContent = "🏁 Fim do Quiz!";
-      opcoesEl.innerHTML = "";
-      feedbackEl.textContent = mensagemFinal(acertos);
-      proximaBtn.style.display = "none";
-      mostrarBotaoReiniciar();
-    }
-  };
-
-  mostrarPergunta();
-</script>
+    mostrarPergunta();
+  </script>
+</body>
+</html>
